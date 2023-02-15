@@ -20,6 +20,24 @@ public class IndexWasNotFound {
         int searching = Integer.valueOf(scanner.nextLine());
 
         // Implement the search functionality here
+        
+        int searchingIndex = -1;
+        
+        // search till 7, 创建array时，size为0, initialize to be zero for all
+        for (int i = 0; i<=7; i++) {
+            System.out.println(i);
+            if (array[i] == searching) {
+                System.out.println(i);
+                searchingIndex = i;
+            }
+        }
+        
+        if (searchingIndex == -1) {
+            //
+            System.out.println(searching + " was not found.");
+        }
+        
+        System.out.println(searching + " is at index " + searchingIndex +".");
     }
 
 }

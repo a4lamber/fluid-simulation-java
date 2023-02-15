@@ -20,7 +20,12 @@ In this note, I will summarize what i have learnt while coding in `java` followi
     - [For loop structure](#for-loop-structure)
   - [Statements in java](#statements-in-java)
 - [Part 3](#part-3)
-  - [ArraylIST](#arraylist)
+  - [ArrayList](#arraylist)
+  - [General use case](#general-use-case)
+  - [reference type vs primitive type](#reference-type-vs-primitive-type)
+  - [Arrays](#arrays)
+  - [Using strings](#using-strings)
+    - [Splitting a string](#splitting-a-string)
 - [Reference](#reference)
 
 
@@ -210,9 +215,10 @@ Java 中有三种statement
 
 
 
-## ArraylIST
+## ArrayList
+这里介绍`class ArrayList<>()`, 其实implementation和pyton list很像，只不过只能装一种类型的数据罢了;
 
-- VALUE TYPE (primitive) and reference type (ArrayList)
+## General use case
 
 For array
 
@@ -220,14 +226,66 @@ For array
 |-|-|-|-|
 |Create array `ll`|`ll = []`|`ArrayList<Integer> ll = new ArrayList<>();`|python list stores different type while arraylist only stores the type you specify|
 |find the length|`len(a)`|-|-|
-|-|-|-|-|
+|indexing|`a[0]`|`a.get(0)`|-|
 |for-each loop|`for teacher in teachers:`|`for (String teacher : teachers)`|Need to specify the type for the iterator|
+|add elements|-|-|-|
+|remove element by value|-|-|-|
+
+
+
+## reference type vs primitive type 
+VALUE TYPE (primitive) and reference type (ArrayList) 是两种不同的数据类型, 在java中要注意的是, 如果你创建一个method, input是被copy over to the method scope的:
+- for primitive type like `int`, a copy has been made in the method. whatever you do to it inside the method, it's not gonna affect the value in main.
+- for reference type like `ArrayList`, a reference copy has been passed into the method. So these values are synced.
+
+
+
+## Arrays
+
+Arrays is the ancestor of ArrayList, you create it like this in Java:
+- 创建一个capacity为3的array, `int[] numbers = new int[3];`
+- `String[] strings = new String[5];`
+
+
+There are shorter ways to craete array
+- `int[] numbres = {100, 1, 42}` 这样就不需要specify size和大小了；
+
+```java
+String[] arrayOfStrings = {"Matti L.", "Matti P.", "Matti V."};
+double[] arrayOfFloatingpoints = {1.20, 3.14, 100.0, 0.6666666667};
+```
+
+
+## Using strings
+Learning objectives 
+- Revising reading, printing and comparing Strings
+- Knowing how to split a string into several pieces
+
+### Splitting a string
+```java
+String text = "first second third fourth";
+String[] pieces = text.split(" ");
+System.out.println(pieces[0]);
+System.out.println(pieces[1]);
+System.out.println(pieces[2]);
+System.out.println(pieces[3]);
+
+System.out.println();
+
+for (int i = 0; i < pieces.length; i++) {
+    System.out.println(pieces[i]);
+}
+```
+
+
+
+
 
 
 
 # Reference
 - [介绍java statement and unreachable statement error](https://rollbar.com/blog/handling-the-unreachable-statement-error-in-java/#:~:text=1(a)%20is%20compiled%2C,block%2C%20as%20shown%20in%20Fig.)
-
+- [java documentation by washington edu拿来对照着学挺好的](https://courses.cs.washington.edu/courses/cse341/98au/java/jdk1.2beta4/docs/api/java/lang/String.html)
 
 
 
