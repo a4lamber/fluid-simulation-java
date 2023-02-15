@@ -16,6 +16,7 @@ public class LastInList {
 
             list.add(input);
         }
-
+        // get the last element of an arraylist 
+        System.out.println(list.get(list.size()-1));
     }
 }

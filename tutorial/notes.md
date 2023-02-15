@@ -20,6 +20,7 @@ In this note, I will summarize what i have learnt while coding in `java` followi
     - [For loop structure](#for-loop-structure)
   - [Statements in java](#statements-in-java)
 - [Part 3](#part-3)
+  - [ArraylIST](#arraylist)
 - [Reference](#reference)
 
 
@@ -209,8 +210,18 @@ Java 中有三种statement
 
 
 
+## ArraylIST
 
+- VALUE TYPE (primitive) and reference type (ArrayList)
 
+For array
+
+|Method|Python|Java|Description|
+|-|-|-|-|
+|Create array `ll`|`ll = []`|`ArrayList<Integer> ll = new ArrayList<>();`|python list stores different type while arraylist only stores the type you specify|
+|find the length|`len(a)`|-|-|
+|-|-|-|-|
+|for-each loop|`for teacher in teachers:`|`for (String teacher : teachers)`|Need to specify the type for the iterator|
 
 
 

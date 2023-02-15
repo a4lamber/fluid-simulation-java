@@ -17,6 +17,6 @@ public class IoobProgram {
         for (String line : lines) {
             System.out.println(line);
         }
-
+        System.out.println(lines[100]);
     }
 }
