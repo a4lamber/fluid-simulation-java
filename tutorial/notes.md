@@ -21,11 +21,12 @@ In this note, I will summarize what i have learnt while coding in `java` followi
   - [Statements in java](#statements-in-java)
 - [Part 3](#part-3)
   - [ArrayList](#arraylist)
-  - [General use case](#general-use-case)
-  - [reference type vs primitive type](#reference-type-vs-primitive-type)
+    - [General use case](#general-use-case)
+    - [reference type vs primitive type](#reference-type-vs-primitive-type)
   - [Arrays](#arrays)
   - [Using strings](#using-strings)
     - [Splitting a string](#splitting-a-string)
+  - [Summary](#summary)
 - [Reference](#reference)
 
 
@@ -218,22 +219,12 @@ Java 中有三种statement
 ## ArrayList
 这里介绍`class ArrayList<>()`, 其实implementation和pyton list很像，只不过只能装一种类型的数据罢了;
 
-## General use case
-
-For array
-
-|Method|Python|Java|Description|
-|-|-|-|-|
-|Create array `ll`|`ll = []`|`ArrayList<Integer> ll = new ArrayList<>();`|python list stores different type while arraylist only stores the type you specify|
-|find the length|`len(a)`|-|-|
-|indexing|`a[0]`|`a.get(0)`|-|
-|for-each loop|`for teacher in teachers:`|`for (String teacher : teachers)`|Need to specify the type for the iterator|
-|add elements|-|-|-|
-|remove element by value|-|-|-|
+### General use case
 
 
 
-## reference type vs primitive type 
+
+### reference type vs primitive type 
 VALUE TYPE (primitive) and reference type (ArrayList) 是两种不同的数据类型, 在java中要注意的是, 如果你创建一个method, input是被copy over to the method scope的:
 - for primitive type like `int`, a copy has been made in the method. whatever you do to it inside the method, it's not gonna affect the value in main.
 - for reference type like `ArrayList`, a reference copy has been passed into the method. So these values are synced.
@@ -277,8 +268,18 @@ for (int i = 0; i < pieces.length; i++) {
 }
 ```
 
+## Summary
 
+In this section, we have learnt Array, ArrayList. Now, we need to compare it with Python for better understanding.
 
+|Method|Python `List`|Java `ArrayList`|Java `Array`|Description|
+|-|-|-|-|-|
+|Create array `a`|`a = []` or `ll = list()`|`ArrayList<Integer> ll = new ArrayList<>();`|`Integer[] a = new int[3]` or `String[] arrayOfStrings = {"Matti L.", "Matti P.", "Matti V."}`|python list stores different type while arraylist and array only stores the type you specify. Array就是static array, 更基础的类型;|
+|find the length|`len(a)`|`a.size()`|`a.length`|-|
+|indexing|`a[0]`|`a.get(0)`|`a[0]`|-|
+|for-each loop|`for teacher in teachers:`|`for (String teacher : teachers)`|`for (String teacher : teachers)`|Need to specify the type for the iterator|
+|append elements|`a.append()`|`a.add()`|-|-|
+|remove element by value|-|-|-|-|
 
 
 
