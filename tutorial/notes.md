@@ -27,6 +27,11 @@ In this note, I will summarize what i have learnt while coding in `java` followi
   - [Using strings](#using-strings)
     - [Splitting a string](#splitting-a-string)
   - [Summary](#summary)
+- [Part 4](#part-4)
+  - [Introduction to object-oriented programming](#introduction-to-object-oriented-programming)
+    - [A string representation of an object and the toString-method](#a-string-representation-of-an-object-and-the-tostring-method)
+    - [Method parameter](#method-parameter)
+  - [Objects in a list](#objects-in-a-list)
 - [Reference](#reference)
 
 
@@ -280,6 +285,77 @@ In this section, we have learnt Array, ArrayList. Now, we need to compare it wit
 |for-each loop|`for teacher in teachers:`|`for (String teacher : teachers)`|`for (String teacher : teachers)`|Need to specify the type for the iterator|
 |append elements|`a.append()`|`a.add()`|-|-|
 |remove element by value|-|-|-|-|
+
+
+
+
+# Part 4
+Learning objective:
+- intro to OOP
+- objects as a list
+- Files and reading data
+- Summary
+
+## Introduction to object-oriented programming
+
+Recall last part where we create an `ArrayList` class
+```java
+ArrayList<Integer> integers = new ArrayListM<>();
+```
+
+一个class主要有以下几个步骤完成：
+- The **object's variables (instance variables)** specify the internal state of the object.
+- **Constructor** to initialize the attributes
+- The **object's methods** specify what the object does
+
+
+
+
+```java
+public class Person {
+    // attributes
+    private String name;
+    private int age;
+
+    /* constructor
+    1. 必须named after the class
+    2. 如果不设construvtor, java内部会创造一个default constructor, 那么reference type points to Null, primitive be zero
+    */
+    public Person(String initialName) {
+        this.age = 0;
+        this.name = initialName;
+    }
+}
+```
+
+### A string representation of an object and the toString-method
+实际上就是python的`__str__`
+
+|java|python|
+|-|-|
+|`toString`|`__str__`|
+
+每当程序运行的时候，at runtime
+
+```java
+System.out.println(antti);
+```
+system.out.println都会向antti这个instance所属于的class找它的string representation, defined as `ClassName.toString()`;
+
+### Method parameter
+几个小习惯:
+- in java, 如果一个method的only purpose is to set a value to an attribute (instance variable), it should be called `setVariableName()`. 这些叫做valueSetting methods, 也叫setter
+
+
+
+## Objects in a list
+> Learning Objective: 
+> - You can add objects to a list;
+> - you can go through objects in a list;
+
+
+
+
 
 
 
