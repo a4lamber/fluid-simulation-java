@@ -32,6 +32,9 @@ In this note, I will summarize what i have learnt while coding in `java` followi
     - [A string representation of an object and the toString-method](#a-string-representation-of-an-object-and-the-tostring-method)
     - [Method parameter](#method-parameter)
   - [Objects in a list](#objects-in-a-list)
+    - [Adding objext to a list](#adding-objext-to-a-list)
+  - [Files and reading data](#files-and-reading-data)
+    - [Files and Filesystem](#files-and-filesystem)
 - [Reference](#reference)
 
 
@@ -353,6 +356,16 @@ system.out.println都会向antti这个instance所属于的class找它的string r
 > - You can add objects to a list;
 > - you can go through objects in a list;
 
+
+
+### Adding objext to a list
+
+
+
+## Files and reading data
+这一章重点讲file and file system
+
+### Files and Filesystem
 
 
 
