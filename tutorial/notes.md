@@ -35,6 +35,19 @@ In this note, I will summarize what i have learnt while coding in `java` followi
     - [Adding objext to a list](#adding-objext-to-a-list)
   - [Files and reading data](#files-and-reading-data)
     - [Files and Filesystem](#files-and-filesystem)
+- [Part 5](#part-5)
+  - [5.1 Learning OOP](#51-learning-oop)
+    - [Object](#object)
+  - [5.2 Overloading and constructors](#52-overloading-and-constructors)
+    - [Constructor overloading](#constructor-overloading)
+    - [Calling your constructor](#calling-your-constructor)
+    - [Method Overloading](#method-overloading)
+  - [5.3 Primitive and reference variables](#53-primitive-and-reference-variables)
+    - [Primitive Variables](#primitive-variables)
+    - [Reference Variables](#reference-variables)
+    - [Primitive and Reference Variable as Methods Parameters](#primitive-and-reference-variable-as-methods-parameters)
+  - [5.4 Objects and references](#54-objects-and-references)
+  - [5.5 Conclusion](#55-conclusion)
 - [Reference](#reference)
 
 
@@ -367,6 +380,472 @@ system.out.println都会向antti这个instance所属于的class找它的string r
 
 ### Files and Filesystem
 
+
+
+
+# Part 5
+> In this part:
+> 1. learning OOP
+> 2. removing repetitive code (overloading methods and constructors)
+> 3. Primitive and reference variables
+> 4. Objects and references
+> 5. Conclusion
+
+
+## 5.1 Learning OOP
+idea is using layer of abstraction to hide details inside a class so the main code looks clean.
+
+> OOP is primarily about isolating concepts into their own entities or, in other words, creating abstractions.
+
+举一个例子
+```java
+int hours = 0;
+int minutes = 0;
+int seconds = 0;
+
+while (true) {
+    // 1. Printing the time
+    if (hours < 10) {
+        System.out.print("0");
+    }
+    System.out.print(hours);
+
+    System.out.print(":");
+
+    if (minutes < 10) {
+        System.out.print("0");
+    }
+    System.out.print(minutes);
+
+    System.out.print(":");
+
+    if (seconds < 10) {
+        System.out.print("0");
+    }
+    System.out.print(seconds);
+    System.out.println();
+
+    // 2. The second hand's progress
+    seconds = seconds + 1;
+
+    // 3. The other hand's progress when necessary
+    if (seconds > 59) {
+        minutes = minutes + 1;
+        seconds = 0;
+
+        if (minutes > 59) {
+            hours = hours + 1;
+            minutes = 0;
+
+            if (hours > 23) {
+                hours = 0;
+            }
+        }
+    }
+}
+```
+建一个class后
+```java
+public class ClockHand {
+    private int value;
+    private int limit;
+
+    public ClockHand(int limit) {
+        this.limit = limit;
+        this.value = 0;
+    }
+
+    public void advance() {
+        this.value = this.value + 1;
+
+        if (this.value >= this.limit) {
+            this.value = 0;
+        }
+    }
+
+    public int value() {
+        return this.value;
+    }
+
+    public String toString() {
+        if (this.value < 10) {
+            return "0" + this.value;
+        }
+
+        return "" + this.value;
+    }
+}
+```
+之后代码变这样
+```java
+ClockHand hours = new ClockHand(24);
+ClockHand minutes = new ClockHand(60);
+ClockHand seconds = new ClockHand(60);
+
+while (true) {
+    // 1. Printing the time
+    System.out.println(hours + ":" + minutes + ":" + seconds);
+
+    // 2. Advancing the second hand
+    seconds.advance();
+
+    // 3. Advancing the other hands when required
+    if (seconds.value() == 0) {
+        minutes.advance();
+
+        if (minutes.value() == 0) {
+            hours.advance();
+        }
+    }
+}
+```
+基于`ClockHand`来构造`Clock`, 
+```java
+public class Clock {
+    // 
+    private ClockHand hours;
+    private ClockHand minutes;
+    private ClockHand seconds;
+
+    // constructor
+    public Clock() {
+        this.hours = new ClockHand(24);
+        this.minutes = new ClockHand(60);
+        this.seconds = new ClockHand(60);
+    }
+
+    public void advance() {
+        this.seconds.advance();
+
+        if (this.seconds.value() == 0) {
+            this.minutes.advance();
+
+            if (this.minutes.value() == 0) {
+                this.hours.advance();
+            }
+        }
+    }
+
+    public String toString() {
+        return hours + ":" + minutes + ":" + seconds;
+    }
+}
+```
+最后变这样, 两层layer of abstraction;
+```java
+Clock clock = new Clock();
+
+while (true) {
+    System.out.println(clock);
+    clock.advance();
+}
+```
+
+### Object
+`Object`, is an instance of `class` while `class` is the blueprint that we use to build `objects`.
+
+
+## 5.2 Overloading and constructors
+> Learning objective: 
+> - Becoming familiar with the term overloading
+> - Creating multiple constructors for a class;
+> - Creating multiple methods with the same name in a class;
+
+### Constructor overloading
+有些时候，你希望user在使用这段代码的时候，支持不同数量的input, 这就是为什么需要overloading
+
+
+
+看下面这段代码:
+```java
+public class Person {
+
+    private String name;
+    private int age;
+    private int height;
+    private int weight;
+
+    public Person(String name) {
+        this.name = name;
+        this.age = 0;
+        this.weight = 0;
+        this.height = 0;
+    }
+
+    public void printPerson() {
+        System.out.println(this.name + " is " + this.age + " years old");
+    }
+
+    public void growOlder() {
+        this.age++;
+    }
+
+    public boolean isAdult() {
+        if (this.age < 18) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public double bodyMassIndex() {
+        double heightInMeters = this.height / 100.0;
+
+        return this.weight / (heightInMeters * heightInMeters);
+    }
+
+    public String toString() {
+        return this.name + " is " + this.age + " years old, their BMI is " + this.bodyMassIndex();
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public int getWeight() {
+        return this.weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+```
+假设你现在需要用constructor to set both age and name variables, we do this
+```java
+public Person(String name) {
+        this.name = name;
+        this.age = 0;
+        this.weight = 0;
+        this.height = 0;
+    }
+
+public Person(String name, int age) {
+    this.name = name;
+    this.age = age;
+    this.weight = 0;
+    this.height = 0;
+}
+```
+Now we can,
+```java
+public static void main(String[] args) {
+    Person paul = new Person("Paul", 24);
+    Person ada = new Person("Ada");
+
+    System.out.println(paul);
+    System.out.println(ada);
+}
+```
+This is called `constructor overloading`
+
+> `constructor overloading: the technique of having two or more constructors in a class is known as constructor overloading.`
+
+在主程序中区分不同的construcotr的方法仅仅只依靠pass in differnt number of variables? 怎么解决redundacy.
+
+### Calling your constructor
+
+程序员是很lazy的，我们现在发现：
+- constructors很相似，可以copy paste (flag flag flag) 
+
+所以在constructor overloading的case, 我们发现for the `Person` class, it has four attributes `name`, `age`, `weight` and `height`. 对一个construcotr, 最多设置四个parameter, 也就是说任何设置少于四个的construtor的，都是special case of the most genereal constructor that has four inputs.
+
+Example like this
+```java
+public Person(String name) {
+    this(name, 0);
+    //here the code of the second constructor is run, and the age is set to 0
+}
+
+public Person(String name, int age) {
+    this.name = name;
+    this.age = age;
+    this.weight = 0;
+    this.height = 0;
+}
+```
+### Method Overloading
+同理，method overloading也被允许，也有同样的简化形式;
+
+
+b4
+```java
+public void growOlder() {
+    this.age = this.age + 1;
+}
+
+public void growOlder(int years) {
+    this.age = this.age + years;
+}
+```
+after
+```java
+public void growOlder() {
+    this.growOlder(1);
+}
+
+public void growOlder(int years) {
+    this.age = this.age + years;
+}
+```
+
+## 5.3 Primitive and reference variables
+> Learning Objective:
+> You understand the terms primitive and reference variable.
+> You know the types of primitive variables in Java, and also that there can be practicaly an infinite number of different reference variables.
+> The difference in behavior between primitive and reference variables when values are assigned to them, or when they're used as method parameters.
+
+Here is a map of data types in java
+
+![](https://media.geeksforgeeks.org/wp-content/cdn-uploads/20191105111644/Data-types-in-Java.jpg)
+
+### Primitive Variables
+就记住以下两点就可以了:
+- declaring primitive variables, will always create a copy of it
+- for primitive variable passed into a method as an argument, a copy of it has also been made 
+
+Example 1:
+```java
+int first = 10;
+int second = first;
+int third = second;
+System.out.println(first + " " + second + " " + third);
+second = 5;
+System.out.println(first + " " + second + " " + third);
+```
+output is 
+```
+10 10 10
+10 5 10
+```
+
+Example 2 (所谓的variable scope)
+
+```java
+public class Example {
+    public static void main(String[] args) {
+        int number = 1;
+        call(number);
+       
+        System.out.println("Number still: " + number);
+    }
+   
+    public static void call(int number) {
+        System.out.println("Number in the beginning: " + number);
+        number = number + 1;
+        System.out.println("Number in the end: " + number);
+    }
+}
+```
+
+Fore more information refers here
+![](https://www.didattica.agentgroup.unimo.it/didattica/java/tutorial/figures/java/9parts.gif)
+
+小知识点，为什么需要`{}`
+|variable type|scope|lifetime|
+|-|-|-|
+|`instance variable (attributes)`|Troughout the class except in static methods|Until object is available in the memory.|
+|`class variable`|Troughout the class|Until the end of the program|
+|`local variable`|Within the block in which it is declared|Until the control leaves the block in which it is declared|
+
+
+### Reference Variables
+
+For the call of the following line
+```java
+Name leevi = new Name("Leevi);
+```
+
+Step1:
+```java
+Name
+```
+
+Step2:
+```java
+Name leevi
+```
+
+Step3:
+```java
+new Name("Leevi)
+```
+
+Step4:
+```java
+Name leevi = new Name("Leevi);
+```
+
+主要区别是:
+- primitive type are all immutable while reference type, most of them at least (except String for example) are mutable.
+
+
+### Primitive and Reference Variable as Methods Parameters
+Consider `Person` class
+```java
+public class Person {
+    private String name;
+    private int birthYear;
+
+    public Person(String name) {
+        this.name = name;
+        this.birthYear = 1970;
+    }
+
+    public int getBirthYear() {
+        return this.birthYear;
+    }
+
+    public void setBirthYear(int birthYear) {
+        this.birthYear = birthYear;
+    }
+
+    public String toString() {
+        return this.name + " (" + this.birthYear + ")";
+    }
+}
+```
+Consider
+```java
+public class Example {
+    public static void main(String[] args) {
+        Person first = new Person("First");
+
+        System.out.println(first);
+        youthen(first);
+        System.out.println(first);
+
+        Person second = first;
+        youthen(second);
+
+        System.out.println(first);
+    }
+
+    public static void youthen(Person person) {
+        person.setBirthYear(person.getBirthYear() + 1);
+    }
+}
+```
+
+## 5.4 Objects and references
+> Learning Objectives:
+> - brush up on using classes and objects
+> - You know what a `null` reference is, and what causes the `NullPointerException` error
+> - Use an object as an object variable and a method parameter
+> - create a method that returns an object
+> - create the method equals, which can be used to check if two objects of the same type have the same contents or state.
+
+
+
+## 5.5 Conclusion
 
 
 

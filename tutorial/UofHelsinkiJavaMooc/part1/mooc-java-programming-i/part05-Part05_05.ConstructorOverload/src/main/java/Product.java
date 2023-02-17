@@ -1,17 +1,34 @@
 
 public class Product {
-
+    // attributes
     private String name;
     private String location;
     private int weight;
 
+    // constructors
     public Product(String name, String location, int weight) {
         this.name = name;
         this.location = location;
         this.weight = weight;
     }
-
     
+    public Product(String name) {
+        this(name,"shelf",1);
+    }
+    
+    public Product(String name, String location) {
+        this(name,location,1);
+    }
+    
+    public Product(String name, int weight) {
+        this(name,"shelf",weight);
+    }
+    
+    
+    
+    
+    
+    // methods
     public String getName() {
         return name;
     }
@@ -24,6 +41,7 @@ public class Product {
         return location;
     }
 
+   
     @Override
     public String toString() {
         return this.name + " (" + this.weight + " kg) can be found from the " + this.location;
