@@ -57,6 +57,7 @@ In this note, I will summarize what i have learnt while coding in `java` followi
       - [`new` keyword](#new-keyword)
     - [Object as a method's return value](#object-as-a-methods-return-value)
   - [5.5 Conclusion](#55-conclusion)
+- [Part 6](#part-6)
 - [Reference](#reference)
 
 
@@ -1123,9 +1124,18 @@ public class Factory {
 
 
 ## 5.5 Conclusion
+学了以下几个大类：
+- OOP的核心概念，各司其职;
 
 
 
+
+# Part 6
+> In this part:
+> 1. objects on a list and a list as part of an object
+> 2. separating the user interface from the program logic
+> 3. introducing to testing
+> 4. complex programs
 
 
 
