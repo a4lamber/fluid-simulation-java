@@ -16,4 +16,28 @@ public class Person {
     }
 
     // implement an equals method here for checking the equality of objects
+    public boolean equals(Object compared) {
+        //check memory locaiotn
+        if (this == compared) {
+            return true;
+        }
+        // check data type
+        if (!(compared instanceof Person)) {
+            return false;
+        }
+        
+        // chevk every attributes
+        Person comparedPerson = (Person) compared;
+        
+        if (this.name == comparedPerson.name &&
+            this.birthday.equals(comparedPerson.birthday) &&
+            this.height == comparedPerson.height &&
+            this.weight == comparedPerson.weight) {
+        return true;
+    }
+        
+        // otherwise these two are not equal
+        return false;
+    }
+    
 }

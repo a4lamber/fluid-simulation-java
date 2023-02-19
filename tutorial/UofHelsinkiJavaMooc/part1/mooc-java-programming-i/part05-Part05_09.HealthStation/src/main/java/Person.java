@@ -3,12 +3,13 @@
  */
 
 public class Person {
-
+    // attributes
     private String name;
     private int age;
     private int height;
     private int weight;
 
+    // constructor
     public Person(String name, int age, int height, int weight) {
         this.name = name;
         this.age = age;
@@ -16,6 +17,7 @@ public class Person {
         this.weight = weight;
     }
 
+    // methods
     public void printPerson() {
         System.out.println("My name is " + this.name + " and I am " + this.age + " years old");
     }

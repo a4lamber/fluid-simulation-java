@@ -47,6 +47,15 @@ In this note, I will summarize what i have learnt while coding in `java` followi
     - [Reference Variables](#reference-variables)
     - [Primitive and Reference Variable as Methods Parameters](#primitive-and-reference-variable-as-methods-parameters)
   - [5.4 Objects and references](#54-objects-and-references)
+    - [Assigning a reference type variable copies the reference](#assigning-a-reference-type-variable-copies-the-reference)
+    - [`null` value of a reference variable](#null-value-of-a-reference-variable)
+    - [Object as a method parameter](#object-as-a-method-parameter)
+    - [Object of same type as method parameter](#object-of-same-type-as-method-parameter)
+    - [Comparing equality of objects (equals)](#comparing-equality-of-objects-equals)
+      - [`a == b`](#a--b)
+      - [a.equals(b)](#aequalsb)
+      - [`new` keyword](#new-keyword)
+    - [Object as a method's return value](#object-as-a-methods-return-value)
   - [5.5 Conclusion](#55-conclusion)
 - [Reference](#reference)
 
@@ -842,6 +851,274 @@ public class Example {
 > - Use an object as an object variable and a method parameter
 > - create a method that returns an object
 > - create the method equals, which can be used to check if two objects of the same type have the same contents or state.
+
+
+> Tip: A constructor call returns a reference to an object.
+
+
+### Assigning a reference type variable copies the reference
+
+
+
+### `null` value of a reference variable
+
+> Once a variable is referenced to `null`, then it will be automatically collected by the garbage collection in java. 
+
+
+NullPointerException
+
+```java
+Person joan = new Person("Joan Ball");
+System.out.println(joan);
+
+joan = null;
+joan.growOlder();
+```
+
+
+### Object as a method parameter
+Java中有`date` class, 为了避免重复命名带来的困扰，我们创建一个`SimpleDate` class
+
+```java
+public class SimpleDate {
+    private int day;
+    private int month;
+    private int year;
+
+    public SimpleDate(int day, int month, int year) {
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
+
+    public int getDay() {
+        return this.day;
+    }
+
+    public int getMonth() {
+        return this.month;
+    }
+
+    public int getYear() {
+        return this.year;
+    }
+
+    @Override
+    public String toString() {
+        return this.day + "." + this.month + "." + this.year;
+    }
+}
+```
+
+### Object of same type as method parameter
+
+Consider the Person class
+
+```java
+public class Person {
+
+    private String name;
+    private SimpleDate birthday;
+    private int height;
+    private int weight;
+
+    // ...
+}
+```
+
+If we want to compare the ages between two person, we could do
+```java
+Person muhammad = new Person("Muhammad ibn Musa al-Khwarizmi", 1, 1, 780);
+Person pascal = new Person("Blaise Pascal", 19, 6, 1623);
+
+if (muhammad.ageAsYears() > pascal.ageAsYears()) {
+    System.out.println(muhammad.getName() + " is older than " + pascal.getName());
+}
+```
+But there are more `OOP` way of comparing the ages of people.
+```java
+Person muhammad = new Person("Muhammad ibn Musa al-Khwarizmi", 1, 1, 780);
+Person pascal = new Person("Blaise Pascal", 19, 6, 1623);
+
+if (muhammad.olderThan(pascal)) {  //  same as muhammad.olderThan(pascal)==true
+    System.out.println(muhammad.getName() + " is older than " + pascal.getName());
+} else {
+    System.out.println(muhammad.getName() + " is not older than " + pascal.getName());
+}
+```
+下面是这个`public boolean olderThan(Person compared)` 的实现
+
+```java
+public class Person {
+    // ...
+
+    public boolean olderThan(Person compared) {
+        // 1. First compare years
+        int ownYear = this.getBirthday().getYear();
+        int comparedYear = compared.getBirthday().getYear();
+
+        if (ownYear < comparedYear) {
+            return true;
+        }
+
+        if (ownYear > comparedYear) {
+            return false;
+        }
+
+        // 2. Same birthyear, compare months
+        int ownMonth = this.getBirthday().getMonth();
+        int comparedMonth = compared.getBirthday().getMonth();
+
+        if (ownMonth < comparedMonth) {
+            return true;
+        }
+
+        if (ownMonth > comparedMonth) {
+            return false;
+        }
+
+        // 3. Same birth year and month, compare days
+        int ownDay = this.getBirthday().getDay();
+        int comparedDay = compared.getBirthday().getDay();
+
+        if (ownDay < comparedDay) {
+            return true;
+        }
+
+        return false;
+    }
+}
+```
+如果你看看上述代码，你会发现有很多`this.getBirthday()` 都是来源于`SimpleDate` class, 那我们为什么不把比较，直接在`SimpleDate` class之中implement呢?
+我们在`SimpleDate`这么做的用意是OOP的概念是一个class, 只负责做自己的职能, 彼此协同进行，不抢活反而更好.
+
+```java
+public class SimpleDate {
+    private int day;
+    private int month;
+    private int year;
+
+    public SimpleDate(int day, int month, int year) {
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
+
+    public String toString() {
+        return this.day + "." + this.month + "." + this.year;
+    }
+
+    // used to check if this date object (`this`) is before
+    // the date object given as the parameter (`compared`)
+    public boolean before(SimpleDate compared) {
+        // first compare years
+        if (this.year < compared.year) {
+            return true;
+        }
+
+        if (this.year > compared.year) {
+            return false;
+        }
+
+        // years are same, compare months
+        if (this.month < compared.month) {
+            return true;
+        }
+
+        if (this.month > compared.month) {
+            return false;
+        }
+
+        // years and months are same, compare days
+        if (this.day < compared.day) {
+            return true;
+        }
+
+        return false;
+    }
+}
+```
+
+### Comparing equality of objects (equals)
+
+In java, comparing two variables has the following two options:
+- `a == b`
+- `a.equals(b)`
+
+#### `a == b`
+
+前者比较的是variable `a` and `b` 之中的内容是否相同，以下两种情况:
+- 如果是primitive type, 比较数值，因为variable `a` and `b`中存的是值;
+- 如果是reference type, 比较reference指向的memory中的内容是否一样。
+
+
+#### a.equals(b)
+
+`eqauls`, 和`toString`很像，如果任何一个class并没有implement `equals` 会有默认的equals template.默认会比较variable存的memory的location中的数据是否相同;
+
+```java
+SimpleDate first = new SimpleDate(1, 1, 2000);
+SimpleDate second = new SimpleDate(1, 1, 2000);
+SimpleDate third = new SimpleDate(12, 12, 2012);
+SimpleDate fourth = first;
+```
+
+#### `new` keyword
+
+
+
+### Object as a method's return value
+
+我生我自己
+```java
+public class Counter {
+    private int value;
+
+    // example of using multiple constructors:
+    // you can call another constructor from a constructor by calling this
+    // notice that the this call must be on the first line of the constructor
+    public Counter() {
+        this(0);
+    }
+
+    public Counter(int initialValue) {
+        this.value = initialValue;
+    }
+
+    public void increase() {
+        this.value = this.value + 1;
+    }
+
+    public String toString() {
+        return "value: " + value;
+    }
+
+    public Counter clone() {
+        // create a new counter object that receives the value of the cloned counter as its initial value
+        Counter clone = new Counter(this.value);
+
+        // return the clone to the caller
+        return clone;
+    }
+}
+```
+
+同时还可以`Factory()`来生成`Car()`
+
+```java
+public class Factory {
+    private String make;
+
+    public Factory(String make) {
+        this.make = make;
+    }
+
+    public Car procuceCar() {
+        return new Car(this.make);
+    }
+}
+```
+
 
 
 
