@@ -68,6 +68,11 @@ In this note, I will summarize what i have learnt while coding in `java` followi
     - [From one entity to many parts](#from-one-entity-to-many-parts)
   - [6.3 Introduction to testing](#63-introduction-to-testing)
   - [6.4 Complex program](#64-complex-program)
+- [Part 7](#part-7)
+  - [7.1 Programming paradigms](#71-programming-paradigms)
+  - [7.2 Algorithms](#72-algorithms)
+  - [7.3 Larger programming exercises](#73-larger-programming-exercises)
+  - [7.4 Conclusion](#74-conclusion)
 - [Reference](#reference)
 
 
@@ -1352,6 +1357,7 @@ public class UserInterface {
 
 
 ## 6.3 Introduction to testing
+略; 主要讲unit testing
 
 ## 6.4 Complex program
 
@@ -1361,7 +1367,25 @@ public class UserInterface {
 
 
 
+# Part 7
+> In this part:
+> - Programming paradigms
+> - Algorithms
+> - Larger programming exercises
+> - Conclusion
 
+
+## 7.1 Programming paradigms
+
+
+## 7.2 Algorithms
+
+
+
+## 7.3 Larger programming exercises
+
+
+## 7.4 Conclusion
 
 
 
