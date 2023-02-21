@@ -14,6 +14,9 @@ public class SimpleDictionary {
     }
 
     public void add(String word, String translation) {
+        // add a key value pair
         this.translations.put(word, translation);
     }
+    
+    
 }

@@ -2,15 +2,19 @@
 import java.util.Objects;
 
 public class Message {
-
+    // attributes
     private String sender;
     private String content;
 
+    // constructor
     public Message(String sender, String content) {
         this.sender = sender;
         this.content = content;
     }
 
+    
+    // methods
+        
     public String getSender() {
         return sender;
     }
@@ -23,6 +27,7 @@ public class Message {
         return this.sender + ": " + this.content;
     }
 
+    
     // created using the "insert code" feature of NetBeans
     @Override
     public boolean equals(Object obj) {

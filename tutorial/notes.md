@@ -58,6 +58,16 @@ In this note, I will summarize what i have learnt while coding in `java` followi
     - [Object as a method's return value](#object-as-a-methods-return-value)
   - [5.5 Conclusion](#55-conclusion)
 - [Part 6](#part-6)
+  - [6.1 Objects on a list](#61-objects-on-a-list)
+    - [ArrayList in an object](#arraylist-in-an-object)
+    - [Object in an Instanct variable List](#object-in-an-instanct-variable-list)
+    - [Printing an Object from a list](#printing-an-object-from-a-list)
+    - [Clearning an object's list](#clearning-an-objects-list)
+  - [6.2 Separating the user interface from program logic](#62-separating-the-user-interface-from-program-logic)
+    - [Programming tips](#programming-tips)
+    - [From one entity to many parts](#from-one-entity-to-many-parts)
+  - [6.3 Introduction to testing](#63-introduction-to-testing)
+  - [6.4 Complex program](#64-complex-program)
 - [Reference](#reference)
 
 
@@ -1136,6 +1146,223 @@ public class Factory {
 > 2. separating the user interface from the program logic
 > 3. introducing to testing
 > 4. complex programs
+
+
+## 6.1 Objects on a list
+> Learning Objectives:
+> - You review the use of lists.
+> - You know how to use a list as an instance variable;
+
+
+### ArrayList in an object
+这一个section没啥特别的, ArrayList as instance attributes
+
+
+
+### Object in an Instanct variable List
+
+这里就是object in a array `ArrayList<Person>` as a class attribute `private ArrayList<Person> riding;`
+
+```java
+public class AmusementParkRide {
+    private String name;
+    private int minimumHeight;
+    private int visitors;
+    private ArrayList<Person> riding;
+
+    public AmusementParkRide(String name, int minimumHeight) {
+        this.name = name;
+        this.minimumHeight = minimumHeight;
+        this.visitors = 0;
+        this.riding = new ArrayList<>();
+    }
+
+    public boolean isAllowedOn(Person person) {
+        if (person.getHeight() < this.minimumHeight) {
+            return false;
+        }
+
+        this.visitors++;
+        this.riding.add(person);
+        return true;
+    }
+
+    public String toString() {
+        return this.name + ", minimum height requirement: " + this.minimumHeight +
+            ", visitors: " + this.visitors;
+    }
+}
+```
+
+### Printing an Object from a list
+
+
+```java
+public class AmusementParkRide {
+    private String name;
+    private int minimumHeight;
+    private int visitors;
+    private ArrayList<Person> riding;
+
+    // ...
+
+    // ArrayList
+    public String toString() {
+        // let's form a string from all the people on the list
+        String onTheRide = "";
+        for (Person person: riding) {
+            onTheRide = onTheRide + person.getName() + "\n";
+        }
+
+        // we return a string describing the object
+        // including the names of those on the ride
+        return this.name + ", minimum height requirement: " + this.minimumHeight +
+            ", visitors: " + this.visitors + "\n" +
+            "riding:\n" + onTheRide;
+    }
+}
+```
+
+Now, let's look at main script
+
+
+### Clearning an object's list
+
+
+
+## 6.2 Separating the user interface from program logic
+> Learning Objectives
+> - understand creating programs so that the user interface and the application logic are separated
+> - Can create a textual user interface, which takes program specifc application logic and a Scanner object as parameters;
+
+要把user interface和program logic割离开，有点难理解, 假设现在有一个program, 需要用户输入信息直到用户输入两个相同的string, 由此我们知道以下几个条件:
+- 需要有个循环，不断读取用户信息
+- 这个循环需要有个break condition, 和先前用户输入的数进行判断
+- 需要一个方式来储存这个信息
+
+这时候可以根据以上要求来implement这个`UserInterface` class
+
+```java
+public class UserInterface {
+    private Scanner scanner;
+    private ArrayList<String> words;
+
+    public UserInterface(Scanner scanner) {
+        this.scanner = scanner;
+        this.words = new ArrayList<String>();
+    }
+
+    public void start() {
+
+        while (true) {
+            System.out.print("Enter a word: ");
+            String word = scanner.nextLine();
+
+            if (alreadyEntered(word)) {
+                break;
+            }
+
+            // adding the word to the list of previous words
+            this.words.add(word);
+
+        }
+
+        System.out.println("You gave the same word twice!");
+    }
+
+    public boolean alreadyEntered(String word) {
+       if (word.equals("end")) {
+            return true;
+        }
+
+        return false;
+    }
+}
+```
+我们逐字逐句的来解释每一个需求:
+- 有一循环读取用户信息, `while (true)`
+- 有一个break condition, `public boolean alreadyEntered`
+- 有一个方式储存这个信息, `private ArrayList<String> words;`
+
+注意到了吗? 不管是break condition判定，或者是arraylist判定，都和一种储存了用户输入信息的arraylist相关，这样的话，这两个功能又能被独立成一个新的class, 来做这项工作. `wordSet`, implemented below.
+
+```java
+import java.util.ArrayList;
+
+public class WordSet {
+    private ArrayList<String> words
+
+    public WordSet() {
+        this.words = new ArrayList<>();
+    }
+
+    public void add(String word) {
+        this.words.add(word);
+    }
+
+    public boolean contains(String word) {
+        return this.words.contains(word);
+    }
+}
+```
+
+这样的话，`UserInterface` 也简化成
+
+```java
+public class UserInterface {
+    private WordSet wordSet;
+    private Scanner scanner;
+
+    public userInterface(WordSet wordSet, Scanner scanner) {
+        this.wordSet = wordSet;
+        this.scanner = scanner;
+    }
+
+    public void start() {
+
+        while (true) {
+            System.out.print("Enter a word: ");
+            String word = scanner.nextLine();
+
+            if (this.wordSet.contains(word)) {
+                break;
+            }
+
+            this.wordSet.add(word);
+        }
+
+        System.out.println("You gave the same word twice!");
+    }
+}
+```
+
+这么做的目的是:
+- 在更改`WordSet`时，不需要更改acutal user interface.
+- 以后对用户输入的信息，要加任何别的method的时候, 如`check Palindromes`
+
+
+### Programming tips
+- proceed with small steps
+  - try to seprate the problem into several sub-problems and **work on only one sub-problem at a time**
+
+- write clean code
+  - **remove all copy-paste code**
+
+### From one entity to many parts
+
+
+## 6.3 Introduction to testing
+
+## 6.4 Complex program
+
+这一句总结OOP非常好, it's called `single responsibility principle`
+
+> Gather together the things that change for the same reasons. Separate those things that change for difference reasons.
+
+
+
+
+
 
 
 
