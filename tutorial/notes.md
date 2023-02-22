@@ -1376,9 +1376,32 @@ public class UserInterface {
 
 
 ## 7.1 Programming paradigms
+> Learning objectives
+> You know the concept of programming paradigm
+> Procedural and OOP
+
+看一下这里，学习下不同的[编程流派](https://www.google.com/search?q=programming+paradigms&oq=programming+para&aqs=chrome.0.0i512j69i57j0i512l3j0i20i263i512j69i60l2.3366j0j7&sourceid=chrome&ie=UTF-8).
+
+这一章主要讲,OOP vs Procedural programming
+
+|-|OOP|Procedural Programming|
+|-|-|-|
+|-|-|-|
+
+
 
 
 ## 7.2 Algorithms
+> Learning Objective:
+> Understand the concepts of algorithms
+> Explain how selection sort works
+> You can explain how the linear and binary search algorithms work
+
+比较简单，节选着听吧；
+
+
+
+
 
 
 
