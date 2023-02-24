@@ -73,6 +73,11 @@ In this note, I will summarize what i have learnt while coding in `java` followi
   - [7.2 Algorithms](#72-algorithms)
   - [7.3 Larger programming exercises](#73-larger-programming-exercises)
   - [7.4 Conclusion](#74-conclusion)
+- [Part 8](#part-8)
+  - [8.1 short recap](#81-short-recap)
+  - [8.2 Hash Map](#82-hash-map)
+    - [Objects as a HashMap value](#objects-as-a-hashmap-value)
+  - [8.3](#83)
 - [Reference](#reference)
 
 
@@ -1401,14 +1406,59 @@ public class UserInterface {
 
 
 
-
-
-
-
 ## 7.3 Larger programming exercises
+就是做做OOP, 这三题花了不少时间，主要实现的风格都是一样的：
+- `main`
+- `UserInterface`: inputs are `recipes` and `scanner`, 相当于sql的briding table;
+- `recipe` or `bird`: method for a single object
+- `recipes` or `birds`: method for an array of object 
+
 
 
 ## 7.4 Conclusion
+
+
+
+
+# Part 8
+> In this part:
+> - short recap
+> - hash map
+> - similarity of objects
+> - grouping data using hash maps
+> - fast data fetching and grouping information
+
+
+## 8.1 short recap
+Almost used exactly the same problem as previous problem. Not satisfied
+
+
+## 8.2 Hash Map
+
+
+
+```java
+import java.util.HashMap
+
+Hashmap<String,String> numbers = new HashMap<>();
+//
+numbers.put("One","Uno");
+numbers.put("Two","Dos");
+
+number.get("One");
+
+// check whether key in key space of the hash
+numbers.containsKey("Uno");
+
+
+```
+
+### Objects as a HashMap value
+
+
+
+## 8.3 
+
 
 
 
